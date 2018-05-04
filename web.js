@@ -62,7 +62,7 @@ app.get('/bridge-state', (req, res) => {
 
     var resp = {
         ok,
-        reasons,
+        reasons: reasons,
         hostsCount,
         state
     };
