@@ -3,7 +3,7 @@ const fs = require('fs');
 const readline = require('readline');
 const path = require('path');
 
-const DEBUG = true;
+const DEBUG = process.env.DEBUG? true : false;
 if (DEBUG) {
     function debugLog(...args) {
         console.log(new Date().toISOString(), ...args);
