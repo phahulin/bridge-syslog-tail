@@ -12,8 +12,9 @@ const STATE_FNAME = process.env.STATE_FNAME || 'last-state.json';
 const stateFile = path.join(__dirname, `./${STATE_FNAME}`);
 
 const EXPECTED_HOSTS_COUNT = Number(process.env.EXPECTED_HOSTS_COUNT);
-const LAST_FAILED_THRESHOLD = Number(process.env.LAST_FAILED_THRESHOLD_SEC)*1000;
-const LAST_UPD_THRESHOLD = Number(process.env.LAST_UPD_THRESHOLD_SEC)*1000;
+const LAST_FAILED_THRESHOLD = Number(process.env.LAST_FAILED_THRESHOLD_SEC || 0.5*Number(process.env.SAVE_INTERVAL_SEC))*1000;
+const LAST_UPD_THRESHOLD = Number(process.env.LAST_UPD_THRESHOLD_SEC || 2*Number(process.env.SAVE_INTERVAL_SEC))*1000;
+const LAST_SAVED_THRESHOLD = Number(process.env.LAST_SAVED_THRESHOLD_SEC || 2*Number(process.env.SAVE_INTERVAL_SEC))*1000;
 
 app.get('/bridge-state', (req, res) => {
     log('---> /bridge-state');
