@@ -44,7 +44,7 @@ function saveSate() {
     fs.writeFileSync(stateFile, JSON.stringify(state));
     debugLog('Saving state: done');
 }
-setInterval(saveSate, SAVE_INTERVAL*1000);
+setInterval(saveSate, SAVE_INTERVAL);
 
 // ************* PARSING ************* //
 var rl = readline.createInterface({
