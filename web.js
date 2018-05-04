@@ -35,26 +35,34 @@ app.get('/bridge-state', (req, res) => {
     }
 
     var ok = true;
+    var reasons = [];
     // ************* CHECKS ************* //
     var hostsCount = Object.keys(state).length;
     if (hostsCount !== EXPECTED_HOSTS_COUNT) {
         ok = false;
+        reasons.push('hostsCount !== ' + EXPECTED_HOSTS_COUNT);
     }
 
     for (let hostname in state) {
+        var lastFailedDiff = reqTime - state[hostname].lastFailed;
+        var lastUpdDiff = reqTime - state[hostname].lastUpd;
         if (state[hostname].failed) {
             ok = false;
+            reasons.push(hostname + ': in failed state');
         }
-        else if (reqTime - state[hostname].lastFailed < LAST_FAILED_THRESHOLD) {
+        else if (lastFailedDiff < LAST_FAILED_THRESHOLD) {
             ok = false;
+            reasons.push(hostname + ': lastFailed too soon: ' + lastFailedDiff/1000);
         }
-        else if (reqTime - state[hostname].lastUpd < LAST_UPD_THRESHOLD) {
+        else if (lastUpdDiff > LAST_UPD_THRESHOLD) {
             ok = false;
+            reasons.push(hostname + ': lastUpd too long ago' + lastUpdDiff/1000);
         }
     }
 
     var resp = {
         ok,
+        reasons,
         hostsCount,
         state
     };
