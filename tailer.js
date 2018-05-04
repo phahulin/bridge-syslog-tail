@@ -40,7 +40,6 @@ const SAVE_INTERVAL = (Number(process.env.SAVE_INTERVAL_SEC) || 60)*1000;
 const stateFile = path.join(__dirname, `./${STATE_FNAME}`);
 function saveSate() {
     debugLog('Saving state to: ' + stateFile);
-    state.lastSaved = new Date().getTime();
     fs.writeFileSync(stateFile, JSON.stringify(state));
     debugLog('Saving state: done');
 }

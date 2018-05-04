@@ -46,10 +46,10 @@ app.get('/bridge-state', (req, res) => {
         reasons.push('hostsCount !== ' + EXPECTED_HOSTS_COUNT);
     }
 
-    var lastSavedDiff = reqTime - state.lastSaved;
-    if (lastSavedDiff > LAST_SAVED_THRESHOLD) {
-        reasons.push('lastSaved too long ago: ' + lastSavedDiff/1000);
-    }
+    // var lastSavedDiff = reqTime - state.lastSaved;
+    // if (lastSavedDiff > LAST_SAVED_THRESHOLD) {
+    //     reasons.push('lastSaved too long ago: ' + lastSavedDiff/1000);
+    // }
 
     for (let hostname in state) {
         var lastFailedDiff = reqTime - state[hostname].lastFailed;
