@@ -62,16 +62,12 @@ app.get('/bridge-state', (req, res) => {
 
     var resp = {
         ok,
-        reasons: reasons,
+        reasons,
         hostsCount,
         state
     };
     log('<--- /bridge-state, resp = ' + JSON.stringify(resp));
-    res.json({
-        ok,
-        hostsCount,
-        state
-    });
+    res.json(resp);
 });
 
 
