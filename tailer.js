@@ -36,15 +36,15 @@ function updateState(opts) {
 
 // ************* STATE FILE ************* //
 const STATE_FNAME = process.env.STATE_FNAME || 'last-state.json';
-const SAVE_INTERVAL_SEC = 60;
+const SAVE_INTERVAL = (Number(process.env.SAVE_INTERVAL_SEC) || 60)*1000;
 const stateFile = path.join(__dirname, `./${STATE_FNAME}`);
 function saveSate() {
     debugLog('Saving state to: ' + stateFile);
+    state.lastSaved = new Date().getTime();
     fs.writeFileSync(stateFile, JSON.stringify(state));
-    debugLog('Saveing state done');
+    debugLog('Saving state: done');
 }
-setInterval(saveSate, SAVE_INTERVAL_SEC*1000);
-
+setInterval(saveSate, SAVE_INTERVAL*1000);
 
 // ************* PARSING ************* //
 var rl = readline.createInterface({

@@ -26,6 +26,8 @@ app.get('/bridge-state', (req, res) => {
         if (e.code === 'ENOENT') {
             return res.json({
                 ok: false,
+                reason: ['state file does not exist'],
+                hostsCount: 0,
                 state: {},
             });
         }
@@ -41,6 +43,11 @@ app.get('/bridge-state', (req, res) => {
     if (hostsCount !== EXPECTED_HOSTS_COUNT) {
         ok = false;
         reasons.push('hostsCount !== ' + EXPECTED_HOSTS_COUNT);
+    }
+
+    var lastSavedDiff = reqTime - state.lastSaved;
+    if (lastSavedDiff > LAST_SAVED_THRESHOLD) {
+        reasons.push('lastSaved too long ago: ' + lastSavedDiff/1000);
     }
 
     for (let hostname in state) {
@@ -70,6 +77,6 @@ app.get('/bridge-state', (req, res) => {
     res.json(resp);
 });
 
-
+// ************* EXPRESS ************* //
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log('Syslog-tail WEB listening on port ' + PORT));
