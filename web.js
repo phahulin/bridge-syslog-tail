@@ -56,7 +56,7 @@ app.get('/bridge-state', (req, res) => {
         }
         else if (lastUpdDiff > LAST_UPD_THRESHOLD) {
             ok = false;
-            reasons.push(hostname + ': lastUpd too long ago' + lastUpdDiff/1000);
+            reasons.push(hostname + ': lastUpd too long ago: ' + lastUpdDiff/1000);
         }
     }
 
